@@ -5,7 +5,9 @@
   // If image is unavailable, replace "image" with: "build": { "dockerfile": "Dockerfile" }
   "image": "ghcr.io/utsa-humphries-data-science/ms3313_v2:latest",
   // Container settings
-  "overrideCommand": false,
+  // MUST be true in Codespaces: with false, Jupyter (start-notebook.py) becomes PID 1
+  // and the container dies with it, surfacing as a VS Code "network error".
+  "overrideCommand": true,
   "updateRemoteUserUID": false,
   // Environment variables
   "containerEnv": {
@@ -15,7 +17,7 @@
   // postCreateCommand runs as jovyan (system packages already installed via Dockerfile)
   // Use ${containerWorkspaceFolder} for dynamic path that works with any repo name
   "postCreateCommand": "bash ${containerWorkspaceFolder}/.devcontainer/conda_setup.sh || true",
-  "postStartCommand": "bash ${containerWorkspaceFolder}/.devcontainer/conda_post_start.sh",
+  "postStartCommand": "bash ${containerWorkspaceFolder}/.devcontainer/conda_post_start.sh || true",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -157,7 +159,7 @@
     }
   },
   // Open terminal automatically to show setup status
-  "waitFor": "onCreateCommand",
+  "waitFor": "postStartCommand",
   "forwardPorts": [
     8888,
     5432,
@@ -189,9 +191,5 @@
   },
   // Use jovyan as the default user after container creation
   "remoteUser": "jovyan",
-  "runArgs": [
-    "--name=${localWorkspaceFolderBasename}-devcontainer",
-    "--hostname=codespace-${localWorkspaceFolderBasename}"
-  ],
   "shutdownAction": "stopContainer"
 }
