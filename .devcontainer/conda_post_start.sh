@@ -84,3 +84,14 @@ echo ""
 echo "════════════════════════════════════════════"
 echo "✅ Environment ready for data science work!"
 echo "════════════════════════════════════════════"
+
+# ============================================
+# Campus access tunnel (browser VS Code via the class relay VM)
+# Run in the FOREGROUND so its URL + password banner appears in this setup log
+# (which students can see even when the campus firewall blocks the live
+# connection). The script itself backgrounds the long-running tunnel and returns.
+# ============================================
+WORKSPACE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+if [ -f "$WORKSPACE_DIR/.devcontainer/campus_tunnel.sh" ]; then
+    bash "$WORKSPACE_DIR/.devcontainer/campus_tunnel.sh" "$WORKSPACE_DIR" || true
+fi

@@ -14,6 +14,33 @@ Welcome to your first data management assignment! This repository contains a com
 4. **Complete your assignment** - Follow the instructions in `assignment/Homework/README.md`
 5. **Submit your work** - Commit and push your changes (instructions below)
 
+## 🏫 Working from campus (if your Codespace freezes)
+
+On the campus network, GitHub Codespaces may open but then **freeze when you try
+to run code** (the campus firewall blocks GitHub's live connection). If that
+happens, use the built-in campus tunnel — **nothing to install, configure, or
+log into**:
+
+1. Create your Codespace as normal and wait for setup to finish.
+2. Watch the **setup log** (the terminal/log shown while it builds). Near the end
+   you'll see a box with a link:
+
+   ```
+   ==================================================================
+     CAMPUS ACCESS — just click this link to open your editor:
+        https://<something-unique>.149-165-155-34.sslip.io
+   ==================================================================
+   ```
+
+3. **Click that link.** It opens full VS Code in your browser — the exact same
+   files and environment as your Codespace. No password, nothing to type.
+
+Notes:
+- The link is **unique to your codespace** and acts as your key, so keep it to
+  yourself. It's also saved inside the codespace at `~/.campus_subdomain`.
+- Keep the GitHub Codespace tab open — it powers your editor link.
+- Off campus, regular Codespaces works fine; this link keeps working too.
+
 ## 🎯 What You Get
 
 ### Instant Data Science Environment
