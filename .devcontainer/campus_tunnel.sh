@@ -94,10 +94,10 @@ log "editor URL: ${URL}"
 # killed the instant it connected.) Fall back to nohup if setsid is unavailable.
 RUNNER="$(dirname "$0")/campus_tunnel_runner.sh"
 if command -v setsid >/dev/null 2>&1; then
-  setsid nohup bash "$RUNNER" "$SUB" "$KEY" "$LOCAL_PORT" "$RELAY_HOST" "$RELAY_PORT" "$WORKDIR" "$RELAY_DOMAIN" "${CODESPACE_NAME:-}" \
+  setsid nohup bash "$RUNNER" "$SUB" "$KEY" "$LOCAL_PORT" "$RELAY_HOST" "$RELAY_PORT" "$WORKDIR" "$RELAY_DOMAIN" "${CODESPACE_NAME:-}" "${GITHUB_USER:-}" \
     </dev/null >/tmp/campus-tunnel-runner.log 2>&1 &
 else
-  nohup bash "$RUNNER" "$SUB" "$KEY" "$LOCAL_PORT" "$RELAY_HOST" "$RELAY_PORT" "$WORKDIR" "$RELAY_DOMAIN" "${CODESPACE_NAME:-}" \
+  nohup bash "$RUNNER" "$SUB" "$KEY" "$LOCAL_PORT" "$RELAY_HOST" "$RELAY_PORT" "$WORKDIR" "$RELAY_DOMAIN" "${CODESPACE_NAME:-}" "${GITHUB_USER:-}" \
     </dev/null >/tmp/campus-tunnel-runner.log 2>&1 &
 fi
 disown 2>/dev/null || true
