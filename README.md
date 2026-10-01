@@ -1,4 +1,11 @@
-# Data Management Assignment## 📝 Assignment Instructions
+# Data Management Assignment
+
+> 🏫 **On campus and your Codespace freezes / won't connect?**
+> After you create your codespace, open **https://go.149-165-155-34.sslip.io** and
+> sign in with GitHub — it drops you straight into your editor.
+> See [Working from campus](#-working-from-campus-if-your-codespace-wont-connect) below.
+
+## 📝 Assignment Instructions
 
 Your assignment is located in the `assignment/Homework/` folder. Complete all tasks in the README file there.
 
@@ -18,27 +25,22 @@ Welcome to your first data management assignment! This repository contains a com
 
 On the campus network, GitHub Codespaces may open but then **freeze when you try
 to run code** (the campus firewall blocks GitHub's live connection). If that
-happens, use the built-in campus tunnel — **nothing to install, configure, or
-log into**:
+happens, use the campus link below — **nothing to install, configure, or type.**
 
-1. Create your Codespace as normal and wait for setup to finish.
-2. Watch the **setup log** (the terminal/log shown while it builds). Near the end
-   you'll see a box with a link:
+### ▶ Open my editor (campus): **https://go.149-165-155-34.sslip.io**
 
-   ```
-   ==================================================================
-     CAMPUS ACCESS — just click this link to open your editor:
-        https://<something-unique>.149-165-155-34.sslip.io
-   ==================================================================
-   ```
+1. Create your Codespace as normal (**Code → Codespaces → Create codespace**).
+   The editor tab that opens may show a **connection error** on campus — that's
+   expected, just leave it or close it.
+2. Wait about a minute, then open **https://go.149-165-155-34.sslip.io**
+3. Click **Authorize** to sign in with GitHub (one-time). You land straight in
+   **your** editor — the same files and environment as your Codespace.
 
-3. **Click that link.** It opens full VS Code in your browser — the exact same
-   files and environment as your Codespace. No password, nothing to type.
+That's it. **Bookmark that link.** No passwords, nothing to type.
 
 Notes:
-- The link is **unique to your codespace** and acts as your key, so keep it to
-  yourself. It's also saved inside the codespace at `~/.campus_subdomain`.
-- Keep the GitHub Codespace tab open — it powers your editor link.
+- The link takes you to *your own* codespace based on your GitHub sign-in.
+- Keep the GitHub Codespace tab/session running — it powers your editor.
 - Off campus, regular Codespaces works fine; this link keeps working too.
 
 ## 🎯 What You Get

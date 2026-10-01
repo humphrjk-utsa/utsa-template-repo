@@ -59,6 +59,13 @@ auth: none
 cert: false
 EOF
 
+# ---- make code-server match the codespace's VS Code (extensions + settings) --
+# Uses the Microsoft marketplace + this repo's devcontainer.json extension list
+# so Python/Jupyter/R notebooks + kernels work. EXTENSIONS_GALLERY is exported so
+# the code-server the supervisor starts (inherited env) also uses that marketplace.
+export EXTENSIONS_GALLERY='{"serviceUrl":"https://marketplace.visualstudio.com/_apis/public/gallery","cacheUrl":"https://vscode.blob.core.windows.net/gallery/index","itemUrl":"https://marketplace.visualstudio.com/items"}'
+bash "$(dirname "$0")/campus_vscode_setup.sh" "$WORKDIR" >/tmp/campus-vscode-setup.log 2>&1 || true
+
 # ---- ephemeral SSH key so the keyless relay accepts our connection ----------
 KEY="$HOME/.ssh/campus_tunnel_ephemeral"
 mkdir -p "$HOME/.ssh"; chmod 700 "$HOME/.ssh"
@@ -70,13 +77,12 @@ URL="https://${SUB}.${RELAY_DOMAIN}"
 cat <<BANNER
 
 ==================================================================
-  CAMPUS ACCESS — just click this link to open your editor:
+  CAMPUS ACCESS — open your editor from any browser:
 
-     ${URL}
+     https://go.${RELAY_DOMAIN}
 
-  No login needed. This link is unique to your codespace — keep it
-  to yourself (it opens your editor). It's also saved inside the
-  codespace at ~/.campus_subdomain
+  Sign in with GitHub and you land straight in your editor.
+  (direct link for this codespace: ${URL})
 ==================================================================
 
 BANNER
@@ -88,10 +94,10 @@ log "editor URL: ${URL}"
 # killed the instant it connected.) Fall back to nohup if setsid is unavailable.
 RUNNER="$(dirname "$0")/campus_tunnel_runner.sh"
 if command -v setsid >/dev/null 2>&1; then
-  setsid nohup bash "$RUNNER" "$SUB" "$KEY" "$LOCAL_PORT" "$RELAY_HOST" "$RELAY_PORT" "$WORKDIR" \
+  setsid nohup bash "$RUNNER" "$SUB" "$KEY" "$LOCAL_PORT" "$RELAY_HOST" "$RELAY_PORT" "$WORKDIR" "$RELAY_DOMAIN" "${CODESPACE_NAME:-}" \
     </dev/null >/tmp/campus-tunnel-runner.log 2>&1 &
 else
-  nohup bash "$RUNNER" "$SUB" "$KEY" "$LOCAL_PORT" "$RELAY_HOST" "$RELAY_PORT" "$WORKDIR" \
+  nohup bash "$RUNNER" "$SUB" "$KEY" "$LOCAL_PORT" "$RELAY_HOST" "$RELAY_PORT" "$WORKDIR" "$RELAY_DOMAIN" "${CODESPACE_NAME:-}" \
     </dev/null >/tmp/campus-tunnel-runner.log 2>&1 &
 fi
 disown 2>/dev/null || true
