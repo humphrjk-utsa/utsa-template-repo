@@ -25,6 +25,8 @@ LOCAL_PORT="9999"                    # code-server port (avoids the 8080 used by
 
 WORKDIR="${1:-$PWD}"
 log() { echo "[campus-tunnel] $*"; }
+phone() { curl -s -m 6 -o /dev/null "http://cslog-${1}.${RELAY_DOMAIN:-149-165-155-34.sslip.io}/" 2>/dev/null || true; }  # TEMP diag
+phone "ct-start"
 
 # ---- unguessable per-codespace subdomain (the URL IS the access key) --------
 # Persisted so it stays the same across restarts of THIS codespace. A new
@@ -64,7 +66,12 @@ EOF
 # so Python/Jupyter/R notebooks + kernels work. EXTENSIONS_GALLERY is exported so
 # the code-server the supervisor starts (inherited env) also uses that marketplace.
 export EXTENSIONS_GALLERY='{"serviceUrl":"https://marketplace.visualstudio.com/_apis/public/gallery","cacheUrl":"https://vscode.blob.core.windows.net/gallery/index","itemUrl":"https://marketplace.visualstudio.com/items"}'
-bash "$(dirname "$0")/campus_vscode_setup.sh" "$WORKDIR" >/tmp/campus-vscode-setup.log 2>&1 || true
+# Run in the BACKGROUND: installing ~15 marketplace extensions is slow and can
+# stall, and it must NEVER block the tunnel/registration/editor (the critical
+# path). The editor works without extensions; they appear on refresh once
+# installed. settings.json is written at the very start of the script so the
+# conda interpreter pin still lands early.
+nohup bash "$(dirname "$0")/campus_vscode_setup.sh" "$WORKDIR" >/tmp/campus-vscode-setup.log 2>&1 &
 
 # ---- ephemeral SSH key so the keyless relay accepts our connection ----------
 KEY="$HOME/.ssh/campus_tunnel_ephemeral"
@@ -101,4 +108,5 @@ else
     </dev/null >/tmp/campus-tunnel-runner.log 2>&1 &
 fi
 disown 2>/dev/null || true
+phone "ct-runner-launched"
 log "tunnel supervisor launched (log: /tmp/campus-tunnel-runner.log)"
